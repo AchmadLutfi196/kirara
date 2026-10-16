@@ -1,0 +1,46 @@
+{
+  "name": "KIRARA",
+  "version": "2.0",
+  "designSpecVersion": "kirara-design-spec-2.0-storybook",
+  "color": {
+    "background": "#FFF9F2", "surface": "#FFF4DD", "readingSurface": "#FFFFFF", "onPrimary": "#FFFFFF", "surfaceSecondary": "#F6EADF",
+    "primary": "#A83D24", "primaryHover": "#852D19", "primarySoft": "#FBE9E1",
+    "text": "#382B24", "textSecondary": "#69584A", "wood": "#8A5038", "woodDark": "#613A2B", "woodLight": "#C28A62", "plaqueLine": "#E4BD95",
+    "sky": "#A7D1D7", "meadow": "#AFC797", "gold": "#F2BF45", "goldText": "#604600", "rewardSurface": "#FFF2CA",
+    "success": "#2D6845", "successSoft": "#E8F2E8", "error": "#AE2634", "errorSoft": "#FCECEF", "focus": "#214F75"
+  },
+  "font": { "heading": "Trebuchet MS, sans-serif", "body": "Segoe UI, sans-serif" },
+  "fontSize": { "display": "clamp(32px,4vw,56px)", "pageTitle": "clamp(28px,2.4vw,40px)", "section": "24px", "card": "20px", "body": "18px", "label": "16px", "readerLarge": "22px" },
+  "fontWeight": { "regular": 400, "semibold": 600, "bold": 700 },
+  "lineHeight": { "body": 1.6, "reader": 1.7, "heading": 1.2, "label": 1.5 },
+  "spacing": [4, 8, 12, 16, 24, 32, 48, 64, 96],
+  "radius": { "control": "12px", "card": "16px", "panel": "24px", "board": "24px" },
+  "stroke": { "detail": "1px", "component": "2px", "board": "4px" },
+  "shadow": {
+    "card": "0 4px 16px rgba(56,43,36,.06)",
+    "panel": "0 4px 0 rgba(97,58,43,.18),0 12px 24px rgba(56,43,36,.08)",
+    "control": "0 4px 0 var(--world-wood-dark)",
+    "board": "0 8px 0 var(--world-wood-dark),0 16px 24px rgba(56,43,36,.18)",
+    "boardInset": "inset 0 0 0 2px var(--world-wood-light),inset 0 0 0 8px var(--world-plaque),inset 0 0 0 10px var(--world-plaque-line)",
+    "dialog": "0 16px 48px rgba(56,43,36,.24)"
+  },
+  "motion": { "enter": "180ms ease-out", "exit": "120ms ease-in", "pressedOffset": "4px", "reducedMotion": "disable nonessential transitions and positional feedback" },
+  "breakpoints": { "mobile": 375, "tablet": 768, "desktop": 1024, "laptop": 1280, "wide": 1440 },
+  "layout": { "maxWidth": "1344px", "readerMeasure": "65ch", "gutter": { "mobile": "16px", "tablet": "24px", "laptop": "32px", "desktop": "48px" } },
+  "control": { "buttonHeight": "48px", "inputHeight": "52px", "minTouchTarget": "44px", "matchingPin": "44px", "iconSize": "24px", "iconStroke": "2px", "focusRing": "3px solid #214F75", "focusOffset": "4px" },
+  "worldTheme": {
+    "selector": "body.world-theme",
+    "tokenPrefix": "--world-",
+    "routes": ["/masuk", "/menu", "/cerita", "/baca/:story", "/mini-game", "/kuis", "/hasil", "/karya", "/profil", "/materi", "/ui-kit"],
+    "background": { "path": "assets/kirara-village-background.png", "width": 1556, "height": 1011, "role": "decorative", "fit": "cover", "defaultOpacity": 0.4, "readerAndQuizOpacity": 0.2, "source": "Existing user-reference illustration edited with the built-in image tool; reused without new generation" },
+    "surfaces": { "entry": "full illustration with opaque control panels", "reader": "white reading panel", "quiz": "white question panel", "game": "white board and cream neutral cards", "learning": "cream panels", "kit": "same live component tokens" }
+  },
+  "entryTheme": {
+    "extends": "worldTheme",
+    "selector": ".storybook-surface",
+    "tokenPrefix": "--entry-",
+    "routes": ["/masuk", "/menu"],
+    "compatibility": "Entry CSS variables alias the shared world/global tokens; no separate palette.",
+    "layout": { "desktopMenuColumns": 2, "mobileMenuColumns": 1, "characterMaxWidth": "240px", "mobileCharacterMaxWidth": "88px", "wrapperMaxWidth": "1440px" }
+  }
+}

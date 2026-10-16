@@ -1,0 +1,16 @@
+# Send only the static website, its assets, and linked documentation.
+# Ignored references and project history remain available locally.
+/*
+!index.html
+!app.js
+!styles.css
+!assets
+!DESIGN.md
+!README.md
+!design-tokens.json
+!vercel.json
+!.vercelignore
+
+!admin.js
+!admin.css
+!ADMIN.md
