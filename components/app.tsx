@@ -28,12 +28,30 @@ export function KiraraApp({ route }: { route: string }) {
   const [open, setOpen] = useState(false);
   useEffect(() => {
     if (!ready) return;
-    if (location.hash.startsWith("#/")) {
-      const target = location.hash.slice(1);
-      if (/^\/[a-z0-9/-]*$/.test(target)) router.replace(target);
+    const hasName = state.name.trim().length >= 2;
+    if (
+      route &&
+      route !== "masuk" &&
+      !route.startsWith("admin") &&
+      !hasName
+    ) {
+      router.replace("/masuk");
       return;
     }
-    if (!route) router.replace(state.name ? "/menu" : "/masuk");
+    if (location.hash.startsWith("#/")) {
+      const target = location.hash.slice(1);
+      if (/^\/[a-z0-9/-]*$/.test(target)) {
+        const targetRoute = target.slice(1);
+        if (
+          !hasName &&
+          targetRoute !== "masuk" &&
+          !targetRoute.startsWith("admin")
+        ) router.replace("/masuk");
+        else router.replace(target);
+      }
+      return;
+    }
+    if (!route) router.replace(hasName ? "/menu" : "/masuk");
   }, [ready, route, state.name, router]);
   useEffect(() => {
     document.body.classList.toggle("admin-view", route.startsWith("admin"));

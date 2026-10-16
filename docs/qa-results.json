@@ -1,6 +1,6 @@
 {
   "baseURL": "http://localhost:3000",
-  "at": "2026-10-16T14:01:29.691Z",
+  "at": "2026-10-16T15:01:11.954Z",
   "results": [
     {
       "name": "Desktop 1440 routes, direct reload and overflow",
@@ -12,6 +12,10 @@
     },
     {
       "name": "Onboarding validation and persistence",
+      "status": "PASS"
+    },
+    {
+      "name": "Direct student routes require name onboarding",
       "status": "PASS"
     },
     {

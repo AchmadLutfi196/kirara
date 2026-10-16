@@ -20,8 +20,15 @@ async function go(page, route) {
   await page.goto(baseURL + route, {waitUntil:'networkidle'});
   await page.locator('h1').first().waitFor();
 }
-async function context(viewport={width:1440,height:1000}) {
+async function context(viewport={width:1440,height:1000}, withProfile=true) {
   const c=await browser.newContext({viewport});
+  if(withProfile) await c.addInitScript(()=>{
+    try {
+      if(location.origin==='null'||sessionStorage.getItem('qa-seeded'))return;
+      if(!localStorage.getItem('kirara.next.v2')&&!localStorage.getItem('kirara.v1'))
+        localStorage.setItem('kirara.next.v2',JSON.stringify({version:2,name:'QA Sobat Budaya',className:'VI'}));
+    } catch {}
+  });
   const p=await c.newPage();
   p.setDefaultTimeout(10000);
   const errors=[];
@@ -49,7 +56,7 @@ async function routeChecks(width) {
   } finally {await c.close();}
 }
 async function onboarding() {
-  const {c,p,errors}=await context();
+  const {c,p,errors}=await context(undefined,false);
   try {
     await go(p,'/masuk');
     await p.getByRole('button',{name:'Mulai Petualangan',exact:true}).click();
@@ -64,6 +71,31 @@ async function onboarding() {
     await p.goBack({waitUntil:'networkidle'});
     assert.deepEqual(errors,[]);
   } finally {await c.close();}
+}
+async function directRoutesRequireOnboarding() {
+  const {c,p,errors}=await context(undefined,false);
+  try {
+    await go(p,'/menu',{emptyProfile:true});
+    await p.waitForURL('**/masuk');
+    assert.ok((await p.locator('main').innerText()).includes('kenalan dulu'),'new visitor should be asked for a name');
+    await p.getByLabel(/Nama panggilan/).fill('Sobat Baru');
+    await p.getByRole('button',{name:'Mulai Petualangan',exact:true}).click();
+    await p.waitForURL('**/menu');
+    assert.ok((await p.locator('main').innerText()).includes('Sobat Baru'));
+    assert.deepEqual(errors,[]);
+  } finally {await c.close();}
+  const second=await context(undefined,false);
+  try {
+    await go(second.p,'/kuis',{emptyProfile:true});
+    await second.p.waitForURL('**/masuk');
+    assert.deepEqual(second.errors,[]);
+  } finally {await second.c.close();}
+  const admin=await context(undefined,false);
+  try {
+    await go(admin.p,'/admin');
+    assert.match(admin.p.url(),/\/admin$/,'admin workspace remains reachable without a student profile');
+    assert.deepEqual(admin.errors,[]);
+  } finally {await admin.c.close();}
 }
 async function seed(c, values) {
   await c.addInitScript(values=>{
@@ -392,6 +424,7 @@ async function desktopHeader() {
   await check('Desktop 1440 routes, direct reload and overflow',()=>routeChecks(1440));
   await check('Mobile 390 routes, direct reload and overflow',()=>routeChecks(390));
   await check('Onboarding validation and persistence',onboarding);
+  await check('Direct student routes require name onboarding',directRoutesRequireOnboarding);
   await check('Malformed legacy storage recovers without crash',malformedStorage);
   await check('Malformed current storage nested data recovers without crash',malformedCurrentStorage);
   await check('Independent legacy imports, cover object and reward guard',legacyMigration);

@@ -17,6 +17,7 @@ Matching memakai pilihan dua kartu melalui sentuhan/klik dan keyboard, sesuai ca
 | Skenario | Hasil |
 |---|---|
 | Rute langsung, reload, error halaman, overflow pada desktop 1440px | Lulus pada rerun desktop. Run awal berbenturan dengan restart dev server dan timeout `/cerita`; rerun stabil lulus. |
+| Akses langsung tanpa nama | `/menu` dan `/kuis` mengarahkan pengunjung baru ke `/masuk`; area admin tetap dapat dibuka tanpa profil siswa. |
 | Semua rute siswa/admin pada viewport 390px, reload dan overflow horizontal | Lulus. |
 | Header pada 1280px dan 1440px; tautan satu baris, menu desktop tersembunyi, CTA membaca terracotta | Lulus pada rerun. |
 | Menu mobile dan matching lewat keyboard; galeri unggah serta editor admin tidak overflow | Lulus. |
@@ -36,4 +37,4 @@ Dua kegagalan sementara berasal dari lingkungan/harness: server development rest
 
 Pengujian berjalan pada Chromium desktop dalam viewport emulasi; tidak mencakup perangkat fisik/browser lain, kamera nyata, kapasitas storage browser pada kondisi penuh, autentikasi/backend, sinkronisasi antardevais, atau deployment. Tali drag prototipe, activity log historis, dan penghapusan unggahan tidak termasuk penerimaan migrasi ini. Data tetap lokal dan area admin tidak memakai autentikasi.
 
-Hasil 15 skenario yang lulus tersimpan pada [hasil JSON](qa-results.json). Screenshot sementara berada pada direktori `QA_OUTPUT` di mesin penguji (default `/tmp/kirara-next-qa`); jalankan ulang perintah README untuk menghasilkan gambar baru.
+Hasil 16 skenario yang lulus tersimpan pada [hasil JSON](qa-results.json). Screenshot sementara berada pada direktori `QA_OUTPUT` di mesin penguji (default `/tmp/kirara-next-qa`); jalankan ulang perintah README untuk menghasilkan gambar baru.
