@@ -5,7 +5,7 @@
 web
 
 ## Stack
-Prototipe HTML, CSS, JavaScript lokal. Panduan handoff untuk Next.js + Tailwind CSS; tidak mencakup backend atau deployment.
+Next.js App Router, React, TypeScript, dan CSS bertoken lokal. State browser dengan localStorage; tidak mencakup backend atau deployment.
 
 ## Users
 Siswa kelas VI SD, membaca dan mempelajari cerita serta budaya Madura pada komputer, tablet, dan ponsel.
@@ -20,7 +20,7 @@ KIRARA; Sakera dan Marlena; ilustrasi asli dari 12 screenshot; Jokotole & Kuda S
 12 screenshot JPEG. Pengguna menyetujui ekstraksi aset dan penggunaan konten referensi saja. Tidak ada naskah lengkap, audio, sumber aplikasi, atau data siswa terverifikasi.
 
 ## Capabilities and Constraints
-Sembilan halaman utama, Materi pendukung, UI Kit. Interaksi lokal; tidak ada publikasi karya ke server. Naskah yang belum tersedia ditandai. Skor dihitung dari aktivitas pengguna dan bukan angka demo yang diklaim sebagai prestasi.
+Onboarding, menu, cerita/pembaca, Mini Game, kuis/hasil, karya, profil, Materi, UI Kit, dan area admin lokal. Interaksi lokal; tidak ada publikasi karya ke server. Naskah yang belum tersedia ditandai. Skor dihitung dari aktivitas pengguna dan bukan angka demo yang diklaim sebagai prestasi.
 
 ## Product Principles
 - Satu halaman, satu tujuan utama.
