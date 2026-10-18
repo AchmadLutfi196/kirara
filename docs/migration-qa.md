@@ -33,6 +33,16 @@ Matching memakai pilihan dua kartu melalui sentuhan/klik dan keyboard, sesuai ca
 
 Dua kegagalan sementara berasal dari lingkungan/harness: server development restart saat uji desktop dan selector nama textarea sebelum hubungan label diperbaiki. Rerun desktop dan materi lulus; implementasi kini memberi label dan kontrol asosiasi eksplisit. Ringkasan rerun menggantikan hasil sementara tersebut dalam [hasil JSON](qa-results.json), yang mencatat alasan keduanya.
 
+## Verifikasi revisi tata letak siswa — 16 Oktober 2026
+
+Penilaian visual dan pemindaian mekanis dijalankan oleh dua agen Impeccable secara terpisah. Revisi mencakup halaman masuk/menu, jarak judul dan deskripsi, panduan kuis, profil, urutan isi pembaca pada mobile, toolbar galeri, serta kerapatan Mini Game. CSS entry lama yang tidak digunakan telah dihapus setelah beralih ke CSS Module.
+
+- `npm run typecheck` dan `npm run build` lulus.
+- Seluruh 16 skenario `tests/migration.e2e.cjs` lulus pada development server. Kewajiban mengisi nama, keyboard, hadiah satu kali, publikasi konten, serta CRUD admin tetap terverifikasi.
+- Build produksi diperiksa pada lebar 320, 390, 768, 1024, dan 1440px untuk delapan rute siswa: menu, cerita, pembaca Jokotole, Mini Game, kuis, karya, profil, dan materi. Tidak ditemukan overflow horizontal atau uncaught browser error, termasuk dengan nama siswa panjang.
+- Validasi formulir nama dan jumlah kolom menu diperiksa pada kelima ukuran tersebut. Pada 390px, pertanyaan kuis dimulai sebelum posisi vertikal 700px.
+- Screenshot masuk/menu/kuis/profil pada 1440 dan 390px ditinjau secara visual. Artefak sementara memakai awalan `/tmp/kirara-student-after-` dan `/tmp/kirara-student-production-`; hasil regresi berada di `/tmp/kirara-student-layout-qa`.
+
 ## Batas yang belum diuji
 
 Pengujian berjalan pada Chromium desktop dalam viewport emulasi; tidak mencakup perangkat fisik/browser lain, kamera nyata, kapasitas storage browser pada kondisi penuh, autentikasi/backend, sinkronisasi antardevais, atau deployment. Tali drag prototipe, activity log historis, dan penghapusan unggahan tidak termasuk penerimaan migrasi ini. Data tetap lokal dan area admin tidak memakai autentikasi.

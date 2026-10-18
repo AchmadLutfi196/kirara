@@ -246,18 +246,20 @@ export function Quiz() {
         {elapsed} detik
       </Heading>
       <div className="quiz-layout">
-        <aside className="card panel od-stack">
+        <aside className="card panel quiz-guide">
           <Image name="sakera" alt="Sakera menyemangatimu" />
-          <h2>Baca, pikirkan, pilih.</h2>
-          <progress
-            value={Object.keys(answers).length}
-            max={questions.length}
-            aria-label="Jumlah soal terjawab"
-          />
-          <p>
-            {Object.keys(answers).length} / {questions.length} terjawab
-          </p>
-          <p>20 Poin Budaya sekali bila semua jawaban benar.</p>
+          <div className="quiz-guide-copy">
+            <h2>Baca, pikirkan, pilih.</h2>
+            <progress
+              value={Object.keys(answers).length}
+              max={questions.length}
+              aria-label="Jumlah soal terjawab"
+            />
+            <p>
+              {Object.keys(answers).length} / {questions.length} terjawab
+            </p>
+            <p>20 Poin Budaya sekali bila semua jawaban benar.</p>
+          </div>
         </aside>
         <section className="card quiz-main">
           {review ? (
@@ -299,7 +301,7 @@ export function Quiz() {
               <p>
                 Soal {index + 1} dari {questions.length}
               </p>
-              <h2>{q.question}</h2>
+              <h2 className="quiz-question">{q.question}</h2>
               <div className="quiz-options">
                 {q.options.map((option, i) => (
                   <button

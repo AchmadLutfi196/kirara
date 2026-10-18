@@ -28,7 +28,7 @@ export function Admin({ route }: { route: string }) {
       <aside className="admin-sidebar">
         <Link className="admin-brand" href="/admin">
           <Image name="logo" alt="KIRARA" className="admin-logo" />
-          <span>Ruang Pengelola</span>
+          <span className="admin-brand-label">Ruang Pengelola</span>
         </Link>
         <nav aria-label="Navigasi admin">
           {sections.map(([path, label]) => (
@@ -42,7 +42,9 @@ export function Admin({ route }: { route: string }) {
             </Link>
           ))}
         </nav>
-        <Go to="menu">Lihat Tampilan Siswa</Go>
+        <div className="admin-sidebar-bottom">
+          <Go to="menu">Lihat Tampilan Siswa</Go>
+        </div>
       </aside>
       <div className="admin-workspace">
         <header className="admin-topbar">
@@ -57,6 +59,7 @@ export function Admin({ route }: { route: string }) {
                 className="admin-nav-link"
                 key={path}
                 href={"/admin" + (path ? "/" + path : "")}
+                aria-current={section === path ? "page" : undefined}
               >
                 {label}
               </Link>
@@ -65,51 +68,89 @@ export function Admin({ route }: { route: string }) {
           <Go to="menu">Tampilan Siswa</Go>
         </details>
         <div className="admin-content">
-          <p className="notice">
+          <p className="notice admin-local-notice">
             Pengelolaan lokal pada perangkat ini. Tidak ada autentikasi atau
             sinkronisasi server.
           </p>
           {section === "" ? (
-            <>
-              <Heading title="Belajar berakar budaya.">
-                Kelola kisah, tumbuhkan karya.
-              </Heading>
-              <Image
-                name="menu-cerita-v1"
-                alt="Buku kisah Madura"
-                className="admin-welcome-book"
-              />
-              <div className="od-grid admin-summary-grid">
-                <div className="card panel">
-                  <h2>{stories.length + state.customStories.filter((s) => !!state.docs["story:" + s.id]?.published && !state.docs["story:" + s.id]?.archived).length}</h2>
-                  <p>Cerita terbit</p>
+            <div className="admin-dashboard">
+              <section className="admin-dashboard-hero" aria-labelledby="admin-dashboard-title">
+                <div className="admin-dashboard-intro">
+                  <p className="admin-dashboard-kicker">Ringkasan admin</p>
+                  <h1 id="admin-dashboard-title">Belajar berakar budaya.</h1>
                 </div>
-                <div className="card panel">
-                  <h2>{state.quizzes.filter((q) => q.published).length}</h2>
-                  <p>Soal terbit</p>
+                <p className="admin-dashboard-description">Kelola kisah, tumbuhkan karya, dan pantau aktivitas belajar di perangkat ini.</p>
+                <div className="od-cluster admin-dashboard-actions">
+                  <Go to="admin/konten" primary>Kelola Konten Belajar</Go>
+                  <Go to="admin/karya">Tinjau Karya</Go>
                 </div>
-                <div className="card panel">
-                  <h2>
-                    {
-                      state.uploads.filter(
-                        (a) => state.moderation[a.id]?.status !== "approved",
-                      ).length
-                    }
-                  </h2>
-                  <p>Karya menunggu moderasi</p>
+                <Image
+                  name="menu-cerita-v1"
+                  alt=""
+                  className="admin-dashboard-art"
+                  width={256}
+                  height={256}
+                />
+              </section>
+              <section className="admin-dashboard-overview" aria-labelledby="admin-overview-title">
+                <div className="admin-dashboard-section-head">
+                  <h2 id="admin-overview-title">Ringkasan perangkat</h2>
+                  <p>Data berikut tersimpan di browser ini.</p>
                 </div>
-                <div className="card panel">
-                  <h2>{state.name || "—"}</h2>
-                  <p>Profil siswa lokal · {points(state)} poin</p>
-                </div>
+                <dl className="admin-summary-grid">
+                  <div className="admin-summary-item">
+                    <dt>Cerita terbit</dt>
+                    <dd>{stories.length + state.customStories.filter((s) => !!state.docs["story:" + s.id]?.published && !state.docs["story:" + s.id]?.archived).length}</dd>
+                  </div>
+                  <div className="admin-summary-item">
+                    <dt>Soal terbit</dt>
+                    <dd>{state.quizzes.filter((q) => q.published).length}</dd>
+                  </div>
+                  <div className="admin-summary-item">
+                    <dt>Karya menunggu moderasi</dt>
+                    <dd>{state.uploads.filter((a) => state.moderation[a.id]?.status !== "approved").length}</dd>
+                  </div>
+                </dl>
+              </section>
+              <div className="admin-dashboard-columns">
+                <section className="admin-dashboard-shortcuts" aria-labelledby="admin-shortcuts-title">
+                  <div className="admin-dashboard-section-head">
+                    <h2 id="admin-shortcuts-title">Lanjutkan pengelolaan</h2>
+                    <p>Pilih area yang ingin Anda perbarui.</p>
+                  </div>
+                  <div className="admin-shortcut-links">
+                    {[
+                      ["kuis", "Bank Kuis", "Kelola soal dan jawaban."],
+                      ["mini-game", "Materi Mini Game", "Periksa pasangan budaya."],
+                      ["siswa", "Progres Siswa", "Lihat aktivitas belajar."],
+                      ["pengaturan", "Pengaturan", "Atur data perangkat."],
+                    ].map(([path, title, description]) => (
+                      <Link className="admin-shortcut-link" href={"/admin/" + path} key={path}>
+                        <span>
+                          <strong>{title}</strong>
+                          <span>{description}</span>
+                        </span>
+                        <span aria-hidden="true">→</span>
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+                <section className="admin-dashboard-profile" aria-labelledby="admin-profile-title">
+                  <div className="admin-dashboard-section-head">
+                    <h2 id="admin-profile-title">Profil siswa lokal</h2>
+                    <p>Satu profil pada browser ini.</p>
+                  </div>
+                  <div className="admin-dashboard-student">
+                    <span className="admin-student-initial" aria-hidden="true">{state.name ? Array.from(state.name.trim())[0] : "?"}</span>
+                    <div>
+                      <strong>{state.name || "Belum ada nama siswa"}</strong>
+                      <p>{state.name ? `Kelas ${state.className} · ${points(state)} poin budaya` : "Profil akan muncul setelah siswa memasukkan nama."}</p>
+                    </div>
+                  </div>
+                  <Go to="admin/siswa">Lihat Progres Siswa</Go>
+                </section>
               </div>
-              <div className="od-cluster">
-                <Go to="admin/konten">Kelola Cerita &amp; Materi</Go>
-                <Go to="admin/kuis">Kelola Bank Kuis</Go>
-                <Go to="admin/karya">Kelola Karya</Go>
-                <Go to="admin/siswa">Lihat Progres Siswa</Go>
-              </div>
-            </>
+            </div>
           ) : section === "konten" ? (
             <Content />
           ) : section === "kuis" ? (

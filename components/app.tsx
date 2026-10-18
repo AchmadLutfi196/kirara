@@ -15,6 +15,7 @@ import {
 import { Matching, Quiz, Results } from "./learning";
 import { Gallery } from "./gallery";
 import { Admin } from "./admin";
+import studentLayout from "./student-layout.module.css";
 const nav = [
   ["menu", "Menu Utama"],
   ["cerita", "Pilih Cerita"],
@@ -149,7 +150,7 @@ export function KiraraApp({ route }: { route: string }) {
             ? "page admin-page"
             : route === "masuk" || route === "menu"
               ? "entry-main"
-              : "page"
+              : "page student-page"
         }
       >
         {route.startsWith("admin") ? (
@@ -195,20 +196,13 @@ function Entry({ menu }: { menu: boolean }) {
   const [name, setName] = useState(state.name);
   const [error, setError] = useState("");
   return (
-    <section className="storybook-surface">
-      <Image name="kirara-village-background" className="scene-background" />
-      <div className="scene-wrap">
-        <div className="scene-brand">
-          <p className="scene-brand-name">KIRARA</p>
-          <p>Kisah Rakyat Madura</p>
-        </div>
-        <div className="scene-grid">
-          <figure className="scene-companion scene-sakera">
-            <Image name="sakera" alt="Sakera, sahabat belajarmu" />
-            <figcaption>Sakera · Sahabat belajarmu</figcaption>
-          </figure>
-          <div className="scene-main">
-            <div className="scene-plaque scene-greeting od-stack">
+    <section className={studentLayout.entry}>
+      <Image name="kirara-village-background" className={studentLayout.background} />
+      <div className={studentLayout.wrap}>
+        <div className={menu ? studentLayout.menuLayout : studentLayout.onboardingLayout}>
+          <section className={studentLayout.welcome}>
+            <div className={studentLayout.welcomeCopy}>
+              <p className={studentLayout.intro}>Kisah Rakyat Madura · Kelas VI SD</p>
               <h1>
                 {menu ? (
                   <>
@@ -230,18 +224,26 @@ function Entry({ menu }: { menu: boolean }) {
                   ? "Setiap cerita menyimpan pelajaran. Ayo kenali keberanian, kebaikan, dan budaya Madura."
                   : "Halo, Sobat Budaya! Jelajahi cerita rakyat Madura bersama Sakera dan Marlena. Yuk, kenalan dulu."}
               </p>
+              {menu && (
+                <Go to="cerita" primary>Mulai Membaca</Go>
+              )}
             </div>
-            {menu ? (
-              <>
-                <div className="scene-action scene-plaque">
-                  <Go to="cerita" primary>
-                    Mulai Membaca
-                  </Go>
-                  <span>Untuk siswa kelas VI SD</span>
+            {menu && (
+              <div className={studentLayout.menuCompanions}>
+                <Image name="sakera" alt="Sakera, sahabat belajarmu" />
+                <Image name="marlena" alt="Marlena, sahabat membaca" />
+              </div>
+            )}
+          </section>
+          {menu ? (
+            <>
+              <section className={studentLayout.activities} aria-labelledby="student-activities-title">
+                <div className={studentLayout.activitiesHeading}>
+                  <h2 id="student-activities-title">Mau belajar apa hari ini?</h2>
+                  <p>Pilih kegiatan dan mulai petualanganmu.</p>
                 </div>
-                <h2>Mau belajar apa hari ini?</h2>
                 <nav
-                  className="scene-menu-grid od-grid"
+                  className={studentLayout.activityGrid}
                   aria-label="Pilih kegiatan belajar"
                 >
                   {[
@@ -255,67 +257,88 @@ function Entry({ menu }: { menu: boolean }) {
                     <Link
                       key={path}
                       href={"/" + path}
-                      className="scene-menu-item"
+                      className={studentLayout.activityLink}
                     >
-                      <span className="scene-menu-icon">
+                      <span className={studentLayout.activityIcon}>
                         <Image name={"menu-" + path + "-v1"} />
                       </span>
-                      <span className="od-field">
-                        <strong className="scene-menu-title">{title}</strong>
+                      <span className={studentLayout.activityCopy}>
+                        <strong>{title}</strong>
                         <span>{desc}</span>
                       </span>
+                      <span className={studentLayout.activityArrow} aria-hidden="true">→</span>
                     </Link>
                   ))}
                 </nav>
-                <div className="scene-plaque scene-guidance">
+              </section>
+              <aside className={studentLayout.guidance}>
+                <Image name="sakera" alt="" />
+                <div>
+                  <strong>Pesan Sakera</strong>
                   <p>
-                    <strong>Pesan Sakera</strong>
-                    <br />
                     Mulai dari cerita yang paling menarik bagimu. Belajar
                     sedikit demi sedikit, lalu coba tantangannya!
                   </p>
                 </div>
-              </>
-            ) : (
-              <form
-                className="scene-form onboarding-form od-stack"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (name.trim().length < 2 || !/[A-Za-zÀ-ž]/.test(name)) {
-                    setError(
-                      "Isi nama panggilan minimal 2 karakter dan mengandung huruf.",
-                    );
-                    return;
-                  }
-                  setState((s) => ({ ...s, name: name.trim() }));
-                  router.push("/menu");
-                }}
-              >
-                <Field label="Nama panggilan kamu (wajib diisi)">
-                  <input
-                    id="student-name"
-                    className="input"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    maxLength={40}
-                    autoComplete="given-name"
-                    aria-invalid={!!error}
-                    aria-describedby="name-error"
-                  />
-                </Field>
-                <p id="name-error" role="alert">
-                  {error}
-                </p>
-                <Button type="submit">Mulai Petualangan</Button>
-                <p>Progres tersimpan di perangkat ini.</p>
+              </aside>
+            </>
+          ) : (
+            <form
+              className={studentLayout.form}
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (name.trim().length < 2 || !/[A-Za-zÀ-ž]/.test(name)) {
+                  setError(
+                    "Isi nama panggilan minimal 2 karakter dan mengandung huruf.",
+                  );
+                  return;
+                }
+                setState((s) => ({ ...s, name: name.trim() }));
+                router.push("/menu");
+              }}
+            >
+              <div className={studentLayout.formHeading}>
+                <h2>Yuk, kenalan dulu.</h2>
+                <p>Isi nama panggilan untuk memulai.</p>
+              </div>
+              <Field label="Nama panggilan kamu (wajib diisi)">
+                <input
+                  id="student-name"
+                  className="input"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  maxLength={40}
+                  autoComplete="given-name"
+                  aria-invalid={!!error}
+                  aria-describedby="name-error"
+                />
+              </Field>
+              <p id="name-error" className={studentLayout.error} role="alert">
+                {error}
+              </p>
+              <Button type="submit">Mulai Petualangan</Button>
+              <p className={studentLayout.storageHint}>Progres tersimpan di perangkat ini.</p>
+              <div className={studentLayout.storyPreview}>
                 <Image name="art-jokotole" alt="Jokotole dan kuda Si Giga" />
-              </form>
-            )}
-          </div>
-          <figure className="scene-companion scene-marlena">
-            <Image name="marlena" alt="Marlena, sahabat membaca" />
-            <figcaption>Marlena · Sahabat belajarmu</figcaption>
-          </figure>
+                <div>
+                  <strong>Jokotole &amp; Kuda Si Giga</strong>
+                  <p>Salah satu kisah yang akan kamu kenal.</p>
+                </div>
+              </div>
+            </form>
+          )}
+          {!menu && (
+            <div className={studentLayout.onboardingCompanions}>
+              <figure>
+                <Image name="sakera" alt="Sakera, sahabat belajarmu" />
+                <figcaption>Sakera</figcaption>
+              </figure>
+              <figure>
+                <Image name="marlena" alt="Marlena, sahabat membaca" />
+                <figcaption>Marlena</figcaption>
+              </figure>
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -474,33 +497,35 @@ function Reader({ id }: { id: string }) {
                   onChange={(e) => setReflection(e.target.value)}
                 />
               </Field>
-              <Button
-                onClick={() => {
-                  setState((v) => ({
-                    ...v,
-                    reflections: { ...v.reflections, [id]: reflection },
-                  }));
-                  notify("Refleksi tersimpan.");
-                }}
-              >
-                Simpan Refleksi
-              </Button>
-              {s.body && (
+              <div className="od-cluster reader-reflection-actions">
                 <Button
-                  disabled={!!state.completedStories[id]}
                   onClick={() => {
                     setState((v) => ({
                       ...v,
-                      completedStories: { ...v.completedStories, [id]: true },
+                      reflections: { ...v.reflections, [id]: reflection },
                     }));
-                    notify("Cerita selesai. +50 Poin Budaya hanya sekali.");
+                    notify("Refleksi tersimpan.");
                   }}
                 >
-                  {state.completedStories[id]
-                    ? "Cerita selesai"
-                    : "Tandai Selesai Membaca"}
+                  Simpan Refleksi
                 </Button>
-              )}
+                {s.body && (
+                  <Button
+                    disabled={!!state.completedStories[id]}
+                    onClick={() => {
+                      setState((v) => ({
+                        ...v,
+                        completedStories: { ...v.completedStories, [id]: true },
+                      }));
+                      notify("Cerita selesai. +50 Poin Budaya hanya sekali.");
+                    }}
+                  >
+                    {state.completedStories[id]
+                      ? "Cerita selesai"
+                      : "Tandai Selesai Membaca"}
+                  </Button>
+                )}
+              </div>
             </>
           ) : (
             <div className="empty-state">
@@ -542,7 +567,7 @@ function Profile() {
       </Heading>
       <div className="profile-layout">
         <form
-          className="card panel od-stack"
+          className="card panel od-stack student-profile-form"
           onSubmit={(e) => {
             e.preventDefault();
             if (name.trim().length < 2 || !/[A-Za-zÀ-ž]/.test(name)) {
@@ -558,7 +583,13 @@ function Profile() {
             notify("Profil tersimpan.");
           }}
         >
-          <Image name="sakera" alt="Sakera" />
+          <div className="student-profile-form-heading">
+            <Image name="sakera" alt="Sakera" />
+            <div>
+              <h2>Profilmu</h2>
+              <p>Kenalkan dirimu, Sobat Budaya.</p>
+            </div>
+          </div>
           <Field label="Nama panggilan">
             <input
               className="input"
@@ -576,52 +607,60 @@ function Profile() {
               onChange={(e) => setCls(e.target.value)}
             />
           </Field>
-          <p role="alert">{error}</p>
+          <p className="student-profile-error" role="alert">{error}</p>
           <Button type="submit">Simpan Profil</Button>
         </form>
-        <div className="od-stack">
-          <h2>{state.name || "Sobat Budaya"}</h2>
-          <div className="od-grid stats-grid">
-            <div className="card panel">
-              <strong>{points(state)}</strong>
-              <p>Poin Budaya</p>
-            </div>
-            <div className="card panel">
-              <strong>{Object.keys(state.completedStories).length} / {stories.length + state.customStories.filter((s) => !!state.docs["story:" + s.id]?.published).length}</strong>
-              <p>Cerita selesai</p>
-            </div>
-            <div className="card panel">
-              <strong>{state.bestQuiz ?? "—"}</strong>
-              <p>Nilai kuis terbaik</p>
-            </div>
-          </div>
-          <h2>Lencana aktivitas</h2>
-          <p>
-            {state.gameEarned ? "★ Sahabat Budaya" : "○ Selesaikan Mini Game"}
-          </p>
-          <p>
-            {state.quizEarned
-              ? "★ Pembaca Cermat"
-              : "○ Jawab kuis dengan benar"}
-          </p>
-          <h2>Riwayat Cerita</h2>
-          {[...stories, ...state.customStories].filter((s) => !state.docs["story:" + s.id]?.archived && (!state.customStories.some((c) => c.id === s.id) || !!state.docs["story:" + s.id]?.published)).map((s) => (
-            <div className="profile-story" key={s.id}>
-              <Image name={s.image} alt="" />
-              <div>
-                <h3>{s.title}</h3>
-                <p>
-                  {state.completedStories[s.id]
-                    ? "Selesai"
-                    : state.visited[s.id]
-                      ? "Pernah dibuka"
-                      : "Belum dibuka"}
-                </p>
+        <section className="card panel student-profile-progress" aria-label="Perjalanan belajar">
+          <section className="student-profile-summary">
+            <h2>{state.name || "Sobat Budaya"}</h2>
+            <div className="od-grid stats-grid">
+              <div className="stat-card">
+                <strong>{points(state)}</strong>
+                <p>Poin Budaya</p>
               </div>
-              <Go to={"baca/" + s.id}>Baca</Go>
+              <div className="stat-card">
+                <strong>{Object.keys(state.completedStories).length} / {stories.length + state.customStories.filter((s) => !!state.docs["story:" + s.id]?.published).length}</strong>
+                <p>Cerita selesai</p>
+              </div>
+              <div className="stat-card">
+                <strong>{state.bestQuiz ?? "—"}</strong>
+                <p>Nilai kuis terbaik</p>
+              </div>
             </div>
-          ))}
-        </div>
+          </section>
+          <section className="student-profile-badges">
+            <h2>Lencana aktivitas</h2>
+            <div className="badge-list">
+              <p className={"achievement" + (state.gameEarned ? "" : " locked")}>
+                {state.gameEarned ? "★ Sahabat Budaya" : "○ Selesaikan Mini Game"}
+              </p>
+              <p className={"achievement" + (state.quizEarned ? "" : " locked")}>
+                {state.quizEarned
+                  ? "★ Pembaca Cermat"
+                  : "○ Jawab kuis dengan benar"}
+              </p>
+            </div>
+          </section>
+          <section className="student-profile-history">
+            <h2>Riwayat Cerita</h2>
+            {[...stories, ...state.customStories].filter((s) => !state.docs["story:" + s.id]?.archived && (!state.customStories.some((c) => c.id === s.id) || !!state.docs["story:" + s.id]?.published)).map((s) => (
+              <div className="profile-story" key={s.id}>
+                <Image name={s.image} alt="" />
+                <div>
+                  <h3>{s.title}</h3>
+                  <p>
+                    {state.completedStories[s.id]
+                      ? "Selesai"
+                      : state.visited[s.id]
+                        ? "Pernah dibuka"
+                        : "Belum dibuka"}
+                  </p>
+                </div>
+                <Go to={"baca/" + s.id}>Baca</Go>
+              </div>
+            ))}
+          </section>
+        </section>
       </div>
     </>
   );

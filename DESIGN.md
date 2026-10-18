@@ -1,6 +1,6 @@
 # KIRARA Design System
 
-Tema petualangan budaya Madura versi 2.0. UI Kit kanonis: `/ui-kit`. Spesifikasi token sumber: `design-tokens.json`; CSS runtime Next.js: `app/globals.css`. `styles.css` dan `admin.css` di root merupakan referensi historis prototipe.
+Tema petualangan budaya Madura versi 2.0. UI Kit kanonis: `/ui-kit`. Spesifikasi token sumber: `design-tokens.json`; CSS runtime Next.js: `app/globals.css`, dengan tata letak halaman masuk/menu di `components/student-layout.module.css`. `styles.css` dan `admin.css` di root merupakan referensi historis prototipe.
 
 ## Arah visual
 
@@ -64,7 +64,7 @@ Outline cream terbatas pada judul besar di atas lanskap. Paragraf reader maksima
 - `--world-panel-shadow`: kedalaman bawah ringan 4px dan shadow lembut.
 - `--world-control-shadow`: kedalaman bawah 4px untuk kontrol utama.
 - `--world-board-shadow` dan `--world-board-inset`: kedalaman 8px serta bingkai dalam untuk papan menu.
-- Semua `--entry-*` menjadi alias token `--world-*` atau token global. Tema entry bukan palette kedua.
+- Halaman masuk/menu memakai token `--world-*` dan token global yang sama. Tema entry bukan palette kedua.
 - Ikon SVG outline yang ada: viewBox 24, stroke 2, rounded caps/joins. Tidak memakai emoji fungsional.
 - Tombol minimal 48px, input minimal 52px, target sentuh minimal 44px, pin Mini Game 44px.
 - Fokus keyboard outline biru 3px, offset 4px; papan menu dapat memakai outline 4px.
@@ -88,6 +88,8 @@ Galeri berisi contoh referensi serta unggahan lokal; pengambilan foto bukan OCR.
 ## Responsif dan verifikasi
 
 Sasaran: desktop lapang, bacaan dibatasi lebar, mobile 390px satu kolom untuk isi panjang dan form, dua kolom pasangan dengan teks membungkus, serta navigasi compact. Uji overflow harus mencakup rute siswa dan admin. Screenshot dan hasil browser aktual dicatat pada [laporan QA](docs/migration-qa.md); spesifikasi ini tidak menyatakan seluruh breakpoint atau teknologi bantu telah diuji.
+
+Menu belajar memakai tiga kolom pada desktop lebar, dua kolom pada tablet/ponsel, dan satu kolom di bawah 360px. Formulir nama dan pratinjau cerita dikelompokkan; ilustrasi pendamping tidak memperlebar form. Progres profil berada pada panel opak, dan panduan kuis menjadi baris ringkas pada layar kecil. Pada layar kecil, isi bacaan mendahului ilustrasi dan informasi audio pendukung.
 
 ## Asal aset
 
