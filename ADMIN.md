@@ -1,79 +1,49 @@
 # Admin KIRARA
 
-Dashboard interaktif lokal untuk guru atau pengelola konten. Entry tetap `index.html`; tidak ada halaman HTML admin terpisah.
+Area pengelolaan lokal pada aplikasi Next.js. Buka `/admin` atau tautan **Ruang Pengelola** di footer. Tidak ada login atau pembatasan peran server: siapa pun yang memakai browser ini dapat membuka rute admin.
 
-## Membuka dashboard
-
-Buka `index.html#/admin`, atau pilih **Area Admin** pada footer aplikasi siswa. Di admin, **Lihat Tampilan Siswa** kembali ke Menu Utama.
-
-| Bagian | Rute | Fungsi |
+| Bagian | Rute | Cakupan |
 |---|---|---|
-| Ringkasan | `#/admin` | Jumlah konten aktif, soal terbit, karya menunggu, dan aktivitas pengelolaan aktual |
-| Konten Belajar | `#/admin/konten` | Cerita dan materi; cari, edit, simpan draf, terbitkan, arsipkan, pulihkan |
-| Bank Kuis | `#/admin/kuis` | Tambah/edit soal, empat pilihan, satu jawaban benar, penjelasan, draf dan publikasi |
-| Mini Game | `#/admin/mini-game` | Edit lima pasangan budaya dengan id dan gambar tetap |
-| Moderasi Karya | `#/admin/karya` | Detail gambar utuh, persetujuan, permintaan revisi dengan alasan, hapus unggahan lokal |
-| Progres Siswa | `#/admin/siswa` | Satu profil perangkat, poin, cerita selesai, hasil kuis, status Mini Game dan refleksi |
-| Pengaturan | `#/admin/pengaturan` | Nama pengelola/sekolah serta kewajiban meninjau unggahan baru |
+| Ringkasan | `/admin` | Ringkasan konten dan karya serta pintasan pengelolaan |
+| Konten Belajar | `/admin/konten` | CRUD cerita/materi, draf, publikasi, arsip, pulihkan |
+| Bank Kuis | `/admin/kuis` | Soal lokal, empat pilihan, kunci, pembahasan, draf/publikasi |
+| Mini Game | `/admin/mini-game` | Lima pasangan budaya yang memakai id sumber tetap |
+| Moderasi Karya | `/admin/karya` | Persetujuan, revisi dengan masukan, antrean unggahan lokal |
+| Progres Siswa | `/admin/siswa` | Satu profil browser, poin, aktivitas, refleksi |
+| Pengaturan | `/admin/pengaturan` | Nama pengelola/sekolah dan peninjauan karya baru |
 
-## Mengelola konten
+## Konten belajar
 
-1. Pilih **Konten Belajar**, lalu tab Cerita atau Materi.
-2. Tekan **Edit** dan isi bagian yang diperlukan. Sumber awal tetap tersedia; naskah cerita lengkap yang belum disediakan tidak direka.
-3. **Simpan Draf** menyimpan pekerjaan tanpa mengubah publikasi siswa.
-4. **Terbitkan** memeriksa isian. Cerita memerlukan judul, asal, waktu baca 1–120 menit, kategori, deskripsi, dan naskah. Gunakan naskah resmi yang telah ditinjau, bukan cuplikan yang dianggap lengkap.
-5. Buka tampilan siswa pada browser yang sama untuk menggunakan publikasi. Naskah terbit tampil sebagai teks aman dengan paragraf; tidak menerima HTML aktif.
+Pada **Konten Belajar**, pilih Cerita atau Materi. **Tambah Cerita/Materi** membuat entri lokal baru; **Edit** mengubah entri. **Simpan Draf** menyimpan pekerjaan untuk dilanjutkan tanpa mengubah siswa, sedangkan **Terbitkan** membuat konten tersedia pada halaman siswa. Entri buatan pengelola dapat **Hapus** setelah konfirmasi. Referensi bawaan tidak dihapus; gunakan **Arsipkan/Pulihkan** untuk mengatur tampilnya. Tampilan siswa dapat dibuka pada browser/origin yang sama melalui **Lihat Tampilan Siswa**.
 
-Cerita terbit memiliki tindakan **Tandai Selesai**, dengan 50 Poin Budaya satu kali per cerita. Audio tetap ditandai belum tersedia karena tidak ada rekaman sumber.
+Naskah lengkap harus berasal dari sumber yang benar-benar tersedia dan telah ditinjau pengelola. Cuplikan Jokotole awal bukan cerita lengkap; Potre Koneng dan Ke’ Lesap belum memiliki naskah. Aplikasi tidak menyusun naskah atau audio palsu. Publikasi naskah dapat ditandai selesai oleh siswa dan memberi 50 poin satu kali per cerita.
 
-Tiga cerita sumber tidak bisa dihapus. Arsip menyembunyikan konten dari daftar siswa; **Pulihkan** mengembalikannya. Materi yang diarsipkan disembunyikan dari halaman Materi, sementara lima pasangan Mini Game tetap dipertahankan agar permainan selalu lengkap.
+**Arsipkan** menyembunyikan konten dari daftar siswa; **Pulihkan** mengembalikannya. Tiga identitas cerita dan lima id budaya sumber dipertahankan. Materi sumber yang diterbitkan dipakai pada halaman Materi dan Mini Game; materi tambahan tampil pada halaman Materi. Istilah budaya sumber harus unik agar pasangan permainan tidak ambigu.
 
-Pada **Mini Game**, istilah dan deskripsi menggunakan publikasi materi yang sama. Istilah pasangan harus unik. Menyimpan draf tidak mengubah kartu siswa; penerbitan menerapkan perubahan tanpa mengganti id pasangan atau tali drag-and-drop.
+## Sampul cerita
 
-## Mengunggah sampul cerita
+Gunakan JPG, PNG, atau WebP maksimal 2 MB yang benar-benar dapat dibaca sebagai gambar. Tunggu proses baca/pratinjau selesai sebelum menyimpan. Gambar konten ditampilkan utuh; berkas asli tidak ditimpa.
 
-1. Buka **Konten Belajar → Cerita → Edit**.
-2. Pada **Sampul cerita**, pilih **Unggah atau ganti sampul**. Gunakan JPG, PNG, atau WebP maksimal 2 MB dan 24 megapiksel. Berkas harus dapat dibaca sebagai gambar; SVG tidak diterima.
-3. Tunggu sampai pratinjau selesai disiapkan. Ukuran asli gambar dibaca untuk menjaga rasio; gambar tidak dipotong.
-4. **Simpan Draf** menyimpan pilihan untuk dikerjakan nanti tanpa mengubah sampul siswa.
-5. **Terbitkan Sampul** memperbarui gambar saja, tanpa mengharuskan naskah lengkap dan tanpa menerbitkan perubahan teks/metadata yang belum disimpan. Tombol **Terbitkan** di bawah editor tetap menerbitkan konten lengkap dengan validasi sebelumnya.
-6. Untuk mengembalikan gambar bawaan, tekan **Gunakan Sampul Asli**, lalu **Terbitkan Sampul**, atau simpan sebagai draf jika belum ingin mengubah tampilan siswa.
+**Simpan Draf** mempertahankan sampul untuk nanti. **Terbitkan Sampul** hanya menerapkan gambar, sehingga draf judul, metadata, dan naskah tidak ikut terbit. **Pulihkan Sampul Asli** langsung memulihkan gambar bawaan tanpa menerbitkan draf teks. Penerbitan seluruh konten tetap memakai tombol **Terbitkan** dan validasi naskah.
 
-Sampul terbit tampil pada kartu Pilih Cerita, pembaca cerita, profil siswa, serta daftar cerita admin. Gambar karya dan ilustrasi halaman lain tidak diganti. Arsip cerita tetap berlaku meskipun sampul diperbarui.
-
-Sampul tersimpan sebagai data gambar dalam namespace admin lokal; berkas aset asli tetap utuh. Browser yang sama diperlukan untuk melihat publikasi. Gambar besar dapat memenuhi kuota localStorage: bila penyimpanan gagal, pemberitahuan menjelaskan bahwa perubahan hanya berlaku pada sesi ini. Gunakan berkas yang lebih kecil sebelum menyimpan ulang. Ukuran maksimum unggahan tidak menjamin ruang penyimpanan masih tersedia.
+Sampul disimpan sebagai data gambar lokal. Ukuran unggahan yang lolos validasi tidak menjamin kuota localStorage cukup; kegagalan simpan harus diperhatikan sebelum menutup tab.
 
 ## Bank kuis
 
-Tambahkan pertanyaan, empat pilihan berbeda, satu jawaban benar, dan penjelasan. Draf baru belum muncul pada kuis siswa. Soal sumber Jokotole tidak dapat dihapus; soal pengelola dapat dihapus setelah konfirmasi.
+**Tambah Soal** menyediakan pertanyaan, empat pilihan berbeda, satu kunci benar, dan pembahasan. Simpan draf untuk meninjau atau terbitkan agar soal tersedia pada kuis siswa. Soal sumber Jokotole dilindungi dari penghapusan; soal tambahan dapat dihapus setelah konfirmasi. **Tarik Publikasi** mengeluarkan soal dari sesi kuis baru tanpa menghapus draf.
 
-Kuis siswa mengambil salinan soal terbit ketika sesi kuis dimulai, menampilkan satu pertanyaan setiap langkah, memberikan feedback benar/salah, lalu menghitung skor dari seluruh jawaban. Publikasi saat sesi sedang berlangsung tidak mengubah pertanyaan di tengah pengerjaan. Gunakan **Main Lagi** setelah menyelesaikan kuis untuk memulai sesi dengan bank soal terbaru. Poin kuis dan lencana mengikuti aturan awal: hasil sempurna memberikan reward satu kali.
+Sesi kuis memakai salinan soal terbit saat sesi dimulai. Siswa memilih jawaban, menandai ragu-ragu bila perlu, meninjau, lalu menyelesaikan kuis. Hasil memperlihatkan jawaban dan pembahasan. **Main Lagi** memulai sesi baru dengan bank soal terbaru. Hasil sempurna memberi 20 poin satu kali; hasil bukan penilaian semua cerita.
 
 ## Moderasi karya
 
-Unggahan berasal dari fitur Ruang Karya siswa pada browser ini. Secara default, unggahan baru menunggu persetujuan. Pengelola dapat:
+Unggahan dari Ruang Karya browser ini masuk antrean secara default. **Setujui Karya** menampilkannya pada galeri siswa. **Minta Revisi** memerlukan masukan minimal lima karakter; masukan terlihat pada status karya siswa. Karya dapat dikembalikan ke antrean atau dihapus dari perangkat setelah konfirmasi.
 
-- **Setujui** agar karya terlihat pada galeri siswa.
-- **Minta Revisi** dengan masukan minimal 5 karakter; masukan tampil pada bagian Status karya di perangkat ini.
-- **Hapus** setelah konfirmasi; gambar dan record unggahan dihapus dari data lokal.
+Enam karya bawaan beserta nama/apresiasinya adalah contoh referensi desain, bukan data siswa terverifikasi. Contoh tidak masuk antrean moderasi. Pengaturan peninjauan hanya mengubah status awal unggahan baru; status lama tetap dipertahankan.
 
-Enam karya bawaan beserta nama pembuatnya merupakan referensi desain, bukan daftar siswa nyata. Karya tersebut tidak dihitung sebagai unggahan baru dan tidak dapat dimoderasi/dihapus.
+## Penyimpanan dan batas
 
-Menonaktifkan peninjauan pada Pengaturan hanya memengaruhi unggahan baru. Status karya lama tetap dipertahankan.
+Aplikasi memakai `kirara.next.v2`, dengan import sumber historis `kirara.v1` dan `kirara.admin.v1` pada origin yang sama. Membuka domain/port berbeda atau pindah dari file lokal tidak otomatis memindahkan data. Detail import dan hasil browser aktual: [laporan migrasi/QA](docs/migration-qa.md).
 
-## Penyimpanan dan batas penggunaan
+Jika storage penuh atau ditolak, perubahan sesi dapat tetap digunakan tetapi hilang ketika dimuat ulang. Belum ada penyimpanan gambar server, cadangan lintas perangkat, pengiriman karya ke sekolah, autentikasi/otorisasi, atau data seluruh kelas. Activity log server, kebijakan akses sekolah, dan audit keamanan berada di luar cakupan.
 
-- `kirara.v1`: profil, unggahan, poin, refleksi, progres, dan hasil siswa.
-- `kirara.admin.v1`: draf, publikasi, soal, status moderasi, preferensi, serta maksimal 30 catatan aktivitas aktual.
-- Semua data hanya berlaku pada origin dan browser ini. File lokal atau deployment dengan alamat berbeda dapat memakai penyimpanan yang berbeda.
-- Bila localStorage penuh atau tidak tersedia, perubahan tetap dapat digunakan dalam sesi yang sedang terbuka dan ditandai dengan pemberitahuan. Muat ulang dapat menghilangkan perubahan yang gagal disimpan.
-- Dashboard tidak menyediakan autentikasi, pembatasan peran server, sinkronisasi, atau data seluruh sekolah. Rute admin adalah area prototipe yang dapat dibuka langsung.
-- Untuk pemakaian sekolah, diperlukan layanan autentikasi/otorisasi server, basis data, penyimpanan gambar, kebijakan akses siswa/guru, dan audit log server.
-
-## Sumber dan implementasi
-
-`admin.js` menyediakan `window.KiraraAdmin`, dimuat sebelum `app.js`. Inisialisasi terjadi setelah sumber siswa tersedia. Modul menghubungkan publikasi ke cerita/materi, kuis, dan galeri; draf memakai namespace terpisah. `admin.css` memusatkan token serta layout area admin tanpa mengganti navigasi atau ikon Menu Utama siswa.
-
-Untuk Next.js, pecah shell, daftar konten, editor, bank soal, moderasi, dan profil menjadi komponen. Ganti adapter localStorage dengan API terotorisasi; pertahankan pemisahan draft/published, id konten stabil, dan validasi server. Kontrak tampilan ini tidak mengimplementasikan backend tersebut.
-
-Entry `index.html`, `admin.js`, `admin.css`, dan panduan ini disertakan pada daftar `.vercelignore`. Konfigurasi statis yang ada tetap digunakan. Deploy belum dijalankan. Tidak ada preview, render, atau pengujian browser setelah finalisasi entry.
+`admin.js`/`admin.css` di root adalah sumber prototipe historis. Jalankan aplikasi kanonis melalui perintah [README.md](README.md); tidak ada deployment yang dilakukan dalam migrasi ini.
